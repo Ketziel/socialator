@@ -101,6 +101,12 @@
 		return $text;
 	}
 		
+    // Compares Two Dates, and Sorts With Newest Shown First
+    function dateCompare($a, $b) {
+		$first = strtotime($a['timestamp']->format('Y-m-d H:i:s'));
+		$second = strtotime($b['timestamp']->format('Y-m-d H:i:s'));
+		return $second - $first;
+	}    
 
 /* ==========================================================================
    Twitter
@@ -174,49 +180,41 @@
    ========================================================================== */
  
 
-if ($facebookPageId != '' && $facebookAppId != '' && $facebookAppSecret != ''){
-    //Generate Access Token Using AppKey & Secret
-	$response = getPage('https://graph.facebook.com/oauth/access_token?grant_type=client_credentials&client_id='.$facebookAppId.'&client_secret='.$facebookAppSecret);
-	$accessToken = str_replace('access_token=', '', $response); 
- 
-	//get the page accounts
-	$accounts = getPage('https://graph.facebook.com/v2.3/'.$facebookAppId.'/accounts?access_token='.$accessToken);
-	
-	$response =  get_object_vars(  json_decode($accounts) );
-	$pageToken = get_object_vars($response['data'][0]);
-	$pageToken = $pageToken['access_token']; 
-	
-	$statuses = getPage('https://graph.facebook.com/v2.3/'.$facebookPageId.'/statuses?access_token='.$pageToken);
-	$statuses = json_decode($statuses, true);
-	$statuses = $statuses["data"];
+    if ($facebookPageId != '' && $facebookAppId != '' && $facebookAppSecret != ''){
+        //Generate Access Token Using AppKey & Secret
+        $response = getPage('https://graph.facebook.com/oauth/access_token?grant_type=client_credentials&client_id='.$facebookAppId.'&client_secret='.$facebookAppSecret);
+        $accessToken = str_replace('access_token=', '', $response); 
 
-	foreach($statuses as $status){
-			
-			$array = array(
-				"socialPlatform" => "facebook",
-				"timestamp" => new DateTime($status['updated_time'], new DateTimeZone($timeZone)),
-				"text" => $status['message'],
-				"url" => "https://www.facebook.com/photo.php?fbid=".$status['id']
-			);
-			
-			array_push ($posts, $array);
-	}
-    
-}
+        //get the page accounts
+        $accounts = getPage('https://graph.facebook.com/v2.3/'.$facebookAppId.'/accounts?access_token='.$accessToken);
 
+        $response =  get_object_vars(  json_decode($accounts) );
+        $pageToken = get_object_vars($response['data'][0]);
+        $pageToken = $pageToken['access_token']; 
 
-function date_compare($a, $b)
-	{
-		$first = strtotime($a['timestamp']->format('Y-m-d H:i:s'));
-		$second = strtotime($b['timestamp']->format('Y-m-d H:i:s'));
-		return $second - $first;
-	}    
-	usort($posts, 'date_compare');
+        $statuses = getPage('https://graph.facebook.com/v2.3/'.$facebookPageId.'/statuses?access_token='.$pageToken);
+        $statuses = json_decode($statuses, true);
+        $statuses = $statuses["data"];
+
+        foreach($statuses as $status){
+
+                $array = array(
+                    "socialPlatform" => "facebook",
+                    "timestamp" => new DateTime($status['updated_time'], new DateTimeZone($timeZone)),
+                    "text" => $status['message'],
+                    "url" => "https://www.facebook.com/photo.php?fbid=".$status['id']
+                );
+
+                array_push ($posts, $array);
+        }
+
+    }
 
 /* ==========================================================================
    Output Loop
    ========================================================================== */
  
+	usort($posts, 'dateCompare');
 	$output = '<div class="socialator '.$outerClass.'">';
 
 	for ($i = 0; $i < $postCount; $i++) {
