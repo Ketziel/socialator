@@ -170,7 +170,6 @@
    Facebook
    ========================================================================== */
  
-	//$response = file_get_contents('https://graph.facebook.com/oauth/access_token?grant_type=client_credentials&client_id='.$facebookAppId.'&client_secret='.$facebookAppSecret);
 	$response = getPage('https://graph.facebook.com/oauth/access_token?grant_type=client_credentials&client_id='.$facebookAppId.'&client_secret='.$facebookAppSecret);
 	$accessToken = str_replace('access_token=', '', $response); 
  
@@ -204,67 +203,6 @@
 		return $second - $first;
 	}    
 	usort($posts, 'date_compare');
- 
-	//$data  = file_get_contents('https://graph.facebook.com/'.$facebookPageId.'/posts?access_token='.$token);
-	//$data = json_decode($data, true);
-	//echo 'https://graph.facebook.com/'.$facebookPageId.'/feed?access_token='.$token;
- 
- 
- 
-  /*$url='https://graph.facebook.com/v2.3/'.$facebookAppId.'/accounts?access_token='.$token;
-  
-  echo $url.'<br/>';
-  
-  $ch=curl_init();
-  CURL_SETOPT($ch,CURLOPT_URL,$url);
-  CURL_SETOPT($ch,CURLOPT_RETURNTRANSFER, 1);
-  $json=json_decode(curl_exec($ch));
-  var_dump($json);
- 
-*/
- 
-	/*$output ='
- 		<script src="https://connect.facebook.net/en_US/all.js" type="text/javascript"></script>
-		<script>
-			$(document).ready(function(){
-				$.ajaxSetup({ cache: true });
-	  			$.getScript("//connect.facebook.net/en_US/sdk.js", function(){
-					var accessToken = "'.$token.'";	
-					var facebookPageId = "";
-					var facebookAppId = "";
-
-					FB.init({ 
-						facebookAppId: facebookAppId, 
-						version: "v2.3",
-						xfbml: true,
-						status: true
-					});
-					//get the app accounts(pages)
-					FB.api("/"+facebookAppId+"/accounts", {access_token: accessToken},
-						function (response) {
-							if (response && !response.error) {
-								//we have the information about the app pages. (for-loop here?)
-								var page_token = response.data[0].access_token;
-								//get the page
-								FB.api("/"+facebookPageId+"/statuses", {access_token: page_token},
-								    function (response) {
-								      if (response && !response.error) {
-								        console.log(response);
-								      }else{ console.log(response.error); }
-								    }
-								);
-							}else{
-								console.log(response.error);
-							}
-						}
-					);
-				});
-			});
-		</script>
-		';*/
-
-	
-	
 	
 
 /* ==========================================================================
