@@ -106,70 +106,76 @@
    Twitter
    ========================================================================== */
 
-    // Set Twitter Options Array
-    $options = array(
-		'screen_name' => $twitterHandle,
-		'count' => $count,
-		'include_rts' => $twitterRetweets
-	);
- 
-    // Set Oath Perameters for the API
-    $oauth = array(
-        'oauth_consumer_key' => $twitterConsumerKey,
-        'oauth_nonce' => time(),
-        'oauth_signature_method' => 'HMAC-SHA1',
-        'oauth_timestamp' => time(),
-        'oauth_token' => $twitterAccessToken,
-        'oauth_version' => '1.0'
-    );
- 
+    if ($twitterAccessToken != '' && $twitterAccessTokenSecret != '' && $twitterConsumerKey != '' && $twitterConsumerSecret != ''){
+        
+        // Set Twitter Options Array
+        $options = array(
+            'screen_name' => $twitterHandle,
+            'count' => $count,
+            'include_rts' => $twitterRetweets
+        );
 
-	$oauth = array_merge($oauth, $options);
-    ksort($oauth);
+        // Set Oath Perameters for the API
+        $oauth = array(
+            'oauth_consumer_key' => $twitterConsumerKey,
+            'oauth_nonce' => time(),
+            'oauth_signature_method' => 'HMAC-SHA1',
+            'oauth_timestamp' => time(),
+            'oauth_token' => $twitterAccessToken,
+            'oauth_version' => '1.0'
+        );
 
-    $arr = array();
-    foreach($oauth as $key => $val)
-        $arr[] = $key.'='.rawurlencode($val);
- 
-    // Encrypt Hash of Values to Ensure Validity During Transfer
-    $oauth['oauth_signature'] = base64_encode(hash_hmac('sha1', 'GET&'.rawurlencode('https://api.twitter.com/1.1/statuses/user_timeline.json').'&'.rawurlencode(implode('&', $arr)), rawurlencode($twitterConsumerSecret).'&'.rawurlencode($twitterAccessTokenSecret), true));
- 
-    $arr = array();
-    foreach($oauth as $key => $val)
-        $arr[] = $key.'="'.rawurlencode($val).'"';
- 
-    // CURL call to API
-    $tweets = curl_init();
-    curl_setopt_array($tweets, array(
-        CURLOPT_HTTPHEADER => array('Authorization: OAuth '.implode(', ', $arr), 'Expect:'),
-        CURLOPT_HEADER => false,
-        CURLOPT_URL => 'https://api.twitter.com/1.1/statuses/user_timeline.json?'.http_build_query($options),
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_SSL_VERIFYPEER => false,
-    ));
-    $tweetsjson = curl_exec($tweets);
-    curl_close($tweets);
-	
-	$json ='';	
-	
-	$tweetsDecoded = json_decode($tweetsjson, true);
-	
-	foreach($tweetsDecoded as $tweet){
-			$array = array(
-				"socialPlatform" => "twitter",
-				"timestamp" => new DateTime($tweet['created_at'], new DateTimeZone($timeZone)),
-				"text" => $tweet['text'],
-				"url" => "https://twitter.com/".$tweet['user']['screen_name']."/status/".$tweet['id']
-			);
-			
-			array_push ($posts, $array);
-	}
+
+        $oauth = array_merge($oauth, $options);
+        ksort($oauth);
+
+        $arr = array();
+        foreach($oauth as $key => $val)
+            $arr[] = $key.'='.rawurlencode($val);
+
+        // Encrypt Hash of Values to Ensure Validity During Transfer
+        $oauth['oauth_signature'] = base64_encode(hash_hmac('sha1', 'GET&'.rawurlencode('https://api.twitter.com/1.1/statuses/user_timeline.json').'&'.rawurlencode(implode('&', $arr)), rawurlencode($twitterConsumerSecret).'&'.rawurlencode($twitterAccessTokenSecret), true));
+
+        $arr = array();
+        foreach($oauth as $key => $val)
+            $arr[] = $key.'="'.rawurlencode($val).'"';
+
+        // CURL call to API
+        $tweets = curl_init();
+        curl_setopt_array($tweets, array(
+            CURLOPT_HTTPHEADER => array('Authorization: OAuth '.implode(', ', $arr), 'Expect:'),
+            CURLOPT_HEADER => false,
+            CURLOPT_URL => 'https://api.twitter.com/1.1/statuses/user_timeline.json?'.http_build_query($options),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+        ));
+        $tweetsjson = curl_exec($tweets);
+        curl_close($tweets);
+
+        $json ='';	
+
+        $tweetsDecoded = json_decode($tweetsjson, true);
+
+        foreach($tweetsDecoded as $tweet){
+                $array = array(
+                    "socialPlatform" => "twitter",
+                    "timestamp" => new DateTime($tweet['created_at'], new DateTimeZone($timeZone)),
+                    "text" => $tweet['text'],
+                    "url" => "https://twitter.com/".$tweet['user']['screen_name']."/status/".$tweet['id']
+                );
+
+                array_push ($posts, $array);
+        }
+    }
 
 
 /* ==========================================================================
    Facebook
    ========================================================================== */
  
+
+if ($facebookPageId != '' && $facebookAppId != '' && $facebookAppSecret != ''){
+    //Generate Access Token Using AppKey & Secret
 	$response = getPage('https://graph.facebook.com/oauth/access_token?grant_type=client_credentials&client_id='.$facebookAppId.'&client_secret='.$facebookAppSecret);
 	$accessToken = str_replace('access_token=', '', $response); 
  
@@ -195,34 +201,38 @@
 			
 			array_push ($posts, $array);
 	}
-	
-	function date_compare($a, $b)
+    
+}
+
+
+function date_compare($a, $b)
 	{
 		$first = strtotime($a['timestamp']->format('Y-m-d H:i:s'));
 		$second = strtotime($b['timestamp']->format('Y-m-d H:i:s'));
 		return $second - $first;
 	}    
 	usort($posts, 'date_compare');
-	
 
 /* ==========================================================================
    Output Loop
    ========================================================================== */
  
 	$output = '<div class="socialator '.$outerClass.'">';
-	
+
 	for ($i = 0; $i < $postCount; $i++) {
-		$output = $output.'
-			<div class="post '.$posts[$i]["socialPlatform"].'">
-				<div class="upper clearfix">
-					<div class="icon">'.$socialIcons[$posts[$i]["socialPlatform"]].'</div>
-					<a href="'.$posts[$i]["url"].'" target="_blank"><time datetime="'.$posts[$i]["timestamp"]->format('Y-m-d H:i:s').'">'.$posts[$i]["timestamp"]->format('d/m/Y').'</time></a>
-				</div>
-				<div class="content">'.linkify($posts[$i]["text"], $posts[$i]["socialPlatform"]).'</div>
-			</div>
-		';
+        if ($posts[$i] != null) {
+            $output = $output.'
+                <div class="post '.$posts[$i]["socialPlatform"].'">
+                    <div class="upper clearfix">
+                        <div class="icon">'.$socialIcons[$posts[$i]["socialPlatform"]].'</div>
+                        <a href="'.$posts[$i]["url"].'" target="_blank"><time datetime="'.$posts[$i]["timestamp"]->format('Y-m-d H:i:s').'">'.$posts[$i]["timestamp"]->format('d/m/Y').'</time></a>
+                    </div>
+                    <div class="content">'.linkify($posts[$i]["text"], $posts[$i]["socialPlatform"]).'</div>
+                </div>
+            ';
+        }
 	}
-	
+
 	$output = $output.'</div>';
  
     return $output;
