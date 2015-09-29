@@ -5,8 +5,8 @@
    ========================================================================== */
 
     /* General */
-    $outerClass = $modx->getOption('$outerClass', $scriptProperties, "socialPosts");
-    $postCount = $modx->getOption('$postCount', $scriptProperties, 25);
+    $outerClass = $modx->getOption('outerClass', $scriptProperties, "socialPosts");
+    $postCount = $modx->getOption('postCount', $scriptProperties, 25);
     $count = $postCount;
 	$timeZone = $modx->getOption('timeZone', $scriptProperties, 'Europe/London');
     $toPlaceholder = $modx->getOption('toPlaceholder', $scriptProperties, '');
