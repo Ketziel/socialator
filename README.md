@@ -14,7 +14,7 @@ Getting all the required variables for each platform can be quite the chore. Bel
 
 #Options to help you do the do
 
-Out with the settings for each specific platform, are these generic plugin settings. Use thee to control how the plugin manages the data once it has been received from each social media site.
+Outwith the settings for each specific platform, are these generic plugin settings. Use thee to control how the plugin manages the data once it has been received from each social media site.
 
 | Name                      | Type              | Default  Value  | Description                                                                                                                              |
 | -----------------------|-----------------|-----------------|-----------------------------------------------------------------------------------------------------------------|
@@ -28,7 +28,7 @@ Out with the settings for each specific platform, are these generic plugin setti
 
 Twitter integration is fairly straight forward, and should cause only a minor headache at worst, so long as everything has been set up correctly on twitter.
 
-The first step to creating a suitable titter account to use, requires you to attach a phone number to your twitter account. Yes, this is horrible, and yes It would be better if this were not needed, but unfortunately it is. And twitter is not the only one which does. It's worth noting, that the account used to generate the keys **does not** need to be the same as the feed you are wanting to pull. This can be done via your account settings, or you can just continue on and twitter will force you to set a number during the rest of the process.
+The first step to creating a suitable twitter account to use, requires you to attach a phone number to your twitter account. Yes, this is horrible, and yes It would be better if this were not needed, but unfortunately it is. And twitter is not the only one which does. It's worth noting, that the account used to generate the keys **does not** need to be the same as the feed you are wanting to pull. This can be done via your account settings, or you can just continue on and twitter will force you to set a number during the rest of the process.
 
 To generate the keys for this plugin to use, you need to create a new app. Visit [apps.twitter.com](https://apps.twitter.com) and select `Create New App`. Pick a name add a description and most importantly **include the domain you are using the plugin on** in the `Website` field. Callback URL is not required, and can be left blank.
 
@@ -80,4 +80,4 @@ No one could sum up working with facebook feeds any better.
 
 #What License I done gone used
 
-Peeper is under the [GPL2](//www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) License.
+Socialator is under the [GPL2](//www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) License.
