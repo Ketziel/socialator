@@ -53,7 +53,7 @@ And that's it, that's all the info you require to set up twitter. It's then just
 
 So, you've decided to include Facebook in your custom social feed. Prepare your butt, because this can get fiddly.
 
-The first thing that must be done, is registering a Dev account with facebook. The account must be an admin of the page you wish to pull the feed from. This unfortunately requires you to attach a phone number to the account too. Do this by heading to [developers.facebook.com](https://developers.facebook.com) - sign in, and click on the `Register as a Developer` button. It is vital that this account is set up correctly and has the proper permissions and is part of the correct group to control the page.
+The first thing that must be done, is registering a Dev account with facebook. The account must be an admin of the page you wish to pull the feed from. This unfortunately requires you to attach a phone number to the account too. Do this by heading to [developers.facebook.com](https://developers.facebook.com) - sign in, and click on the `Register as a Developer` button. It is vital that this account is set up correctly, has the proper permissions and is part of the correct group to control the page.
 
 Next, we want to Create a new App. Select `Choose Apps` in the navigation, and click on `Add a New App`. Follow Quick Start through, most importantly **fill in the Site Domain** to the website field. Choose a category, and then you can skip the rest 
 
