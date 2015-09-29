@@ -14,7 +14,7 @@ Getting all the required variables for each platform can be quite the chore. Bel
 
 #Options to help you do the do
 
-Outwith the settings for each specific platform, are these generic plugin settings. Use thee to control how the plugin manages the data once it has been received from each social media site.
+Outwith the settings for each specific platform, are these generic plugin settings. Use these to control how the plugin manages the data once it has been received from each social media site.
 
 | Name                      | Type              | Default  Value  | Description                                                                                                                              |
 | -----------------------|-----------------|-----------------|-----------------------------------------------------------------------------------------------------------------|
@@ -75,7 +75,7 @@ Otherwise, if you still are unable to retrieve facebook posts - step back, take 
  
  > Move fast and break things. Unless you are breaking stuff, you are not moving fast enough.
  
-No one could sum up working with facebook feeds any better.
+No one could sum up working with facebook feeds a more accurate way...
 
 
 #What License I done gone used
