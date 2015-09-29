@@ -80,4 +80,4 @@ No one could sum up working with facebook feeds any better.
 
 #What License I done gone used
 
-Socialator is under the [GPL2](//www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) License.
+Socialator is under the [WTFPL](//www.wtfpl.net/) License.
