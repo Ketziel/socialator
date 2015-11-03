@@ -202,7 +202,7 @@
                     "socialPlatform" => "facebook",
                     "timestamp" => new DateTime($status['updated_time'], new DateTimeZone($timeZone)),
                     "text" => $status['message'],
-                    "url" => "https://www.facebook.com/photo.php?fbid=".$status['id']
+                    "url" => "https://www.facebook.com/".$status['id']
                 );
 
                 array_push ($posts, $array);
