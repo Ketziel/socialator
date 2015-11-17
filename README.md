@@ -98,8 +98,8 @@ And there we go - ready to plug these values into the plugin!
 
 | Name                      | Type              | Default  Value  | Description                                                                                                                              |
 | -----------------------|-----------------|-----------------|-----------------------------------------------------------------------------------------------------------------|
-| $instagramUserId*   |string              | ''     | Unique id of the instagram user - required to retreive posts.                                  |
-| $instagramAccessToken*   |string              | ''     | Unique id of your generated instagram app - required to retreive posts.                                  |
+| instagramUserId*   |string              | ''     | Unique id of the instagram user - required to retreive posts.                                  |
+| instagramAccessToken*   |string              | ''     | Unique id of your generated instagram app - required to retreive posts.                                  |
 *Required for Instagram posts to be included
 
 
