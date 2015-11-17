@@ -80,17 +80,17 @@ No one could sum up working with facebook feeds a more accurate way...
 
 #Instagram
 
-In comparrison to the others, Instagram is very straight forward to include.
+In comparison to the others, Instagram is very straightforward  to include.
 
 To begin with, set up your instagram as a developer account (if it is not already). Do this by logging into your account, and heading to [instagram.com/developer](http://instagram.com/developer/) and selecting `Register Your Application`. You'll need to fill in this form (yes, that includes the phone number) and hit `Sign up`.
 
-With the account set up as a developer, select `Manage Clients` in the top bar and then click on `Register a New Client`. Here, make sure to set `Valid redirect URIs` to **http://localhost**, and under the `Security` tab ensuring that `Disable implicit OAuth`is **Unchecked**. Once these two essentials have been set, fill in the rest of the form inputs.
+With the account set up as a developer, select `Manage Clients` in the top bar and then click on `Register a New Client`. Here, make sure to set `Valid redirect URIs` to **http://localhost**, and under the `Security` tab ensuring that `Disable implicit OAuth` is **Unchecked**. Once these two essentials have been set, fill in the rest of the form inputs.
 
 Now, under `Manage Clients` you should be able to see new client has been added. From this page, take a copy of the `CLIENT ID` value, insert it into the below URL and then head to the completed link.
 
 `https://instagram.com/oauth/authorize/?client_id=[CLIENT_ID_HERE]&redirect_uri=http://localhost&response_type=token`
 
-When you navigate the above URL you will hit a browser error, however the URL wil have changed to something along the lines of `localhost/#access_token=`. And there we have our access token! (Yeah, it's an odd way to generate it... but it works!)
+When you navigate the above URL you will hit a browser error, however the URL will have changed to something along the lines of `localhost/#access_token=`. And there we have our access token! (Yeah, it's an odd way to generate it... but it works!)
 
 The only other thing required is the instagram user ID. This can be retreived very quickly by visiting [jelled.com/instagram/lookup-user-id](http://jelled.com/instagram/lookup-user-id) and inputting your username.
 
