@@ -10,6 +10,7 @@
     $count = $postCount;
 	$timeZone = $modx->getOption('timeZone', $scriptProperties, 'Europe/London');
     $toPlaceholder = $modx->getOption('toPlaceholder', $scriptProperties, '');
+    $debug = $modx->getOption('debug', $scriptProperties, 'false');
 
     /* Twitter */
 	$twitterHandle = $modx->getOption('twitterHandle', $scriptProperties, '');
@@ -30,6 +31,10 @@
 	$facebookAppId = $modx->getOption('facebookAppId', $scriptProperties, '');
 	$facebookAppSecret = $modx->getOption('facebookAppSecret', $scriptProperties, '');
 
+	/* Instagram */
+	$instagramUserId  = $modx->getOption('instagramUserId', $scriptProperties, '');
+	$instagramAccessToken  = $modx->getOption('instagramAccessToken', $scriptProperties, '');
+	
     $posts = array(); //Empty Array to Store All Combined Posts
 
 	$socialIcons = array(
@@ -59,7 +64,7 @@
 		return $contents;
 	}
 	
-	/* For Facebook */
+	/* For Facebook & Instagram */
 	function getPage($url)
 	{
 		$curl = curl_init();
@@ -167,7 +172,8 @@
                     "socialPlatform" => "twitter",
                     "timestamp" => new DateTime($tweet['created_at'], new DateTimeZone($timeZone)),
                     "text" => $tweet['text'],
-                    "url" => "https://twitter.com/".$tweet['user']['screen_name']."/status/".$tweet['id']
+                    "url" => "https://twitter.com/".$tweet['user']['screen_name']."/status/".$tweet['id'],
+					"img" => ""
                 );
 
                 array_push ($posts, $array);
@@ -196,19 +202,59 @@
         $statuses = json_decode($statuses, true);
         $statuses = $statuses["data"];
 
+		
         foreach($statuses as $status){
 
                 $array = array(
                     "socialPlatform" => "facebook",
                     "timestamp" => new DateTime($status['updated_time'], new DateTimeZone($timeZone)),
                     "text" => $status['message'],
-                    "url" => "https://www.facebook.com/".$status['id']
+                    "url" => "https://www.facebook.com/".$status['id'],
+					"img" => ""
                 );
 
                 array_push ($posts, $array);
         }
 
     }
+	
+	
+/* ==========================================================================
+   Instagram
+   ========================================================================== */
+	
+	if ($instagramUserId != '' && $instagramAccessToken != ''){
+
+		  $instagrams = getPage("https://api.instagram.com/v1/users/".$instagramUserId."/media/recent/?access_token=".$instagramAccessToken);
+		  $instagrams = json_decode($instagrams, true);
+		  $instagrams = $instagrams['data'];
+		  //var_dump($instagrams);
+//		  echo (gettype($instagrams));
+		  
+		foreach($instagrams as $instagram){
+
+                $array = array(
+                    "socialPlatform" => "instagram",
+                    "timestamp" => new DateTime('@'.$instagram['created_time'], new DateTimeZone($timeZone)),
+                    "text" => $instagram['caption']['text'],
+                    "url" => $instagram['link'],
+					"img" => $instagram['images']['standard_resolution']
+                );
+
+                array_push ($posts, $array);
+        }
+		  
+	}
+	
+		/*function getInstagram($url){
+		  $ch = curl_init();
+		  curl_setopt($ch, CURLOPT_URL, $url);
+		  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		  curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+		  $result = curl_exec($ch);
+		  curl_close($ch); 
+		  return $result;
+		  }*/
 
 /* ==========================================================================
    Output Loop
@@ -221,6 +267,7 @@
         if ($posts[$i] != null) {
             $output = $output.'
                 <div class="post '.$posts[$i]["socialPlatform"].'">
+				<img src="'.$posts[$i]['img']['url'].'">
                     <div class="upper clearfix">
                         <div class="icon">'.$socialIcons[$posts[$i]["socialPlatform"]].'</div>
                         <a href="'.$posts[$i]["url"].'" target="_blank"><time datetime="'.$posts[$i]["timestamp"]->format('Y-m-d H:i:s').'">'.$posts[$i]["timestamp"]->format('d/m/Y').'</time></a>
