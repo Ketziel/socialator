@@ -9,6 +9,7 @@
     $postCount = $modx->getOption('postCount', $scriptProperties, 25);
     $count = $postCount;
 	$timeZone = $modx->getOption('timeZone', $scriptProperties, 'Europe/London');
+    $tpl = $modx->getOption('tpl',$scriptProperties,'ResourceItem');
     $toPlaceholder = $modx->getOption('toPlaceholder', $scriptProperties, '');
     $debug = $modx->getOption('debug', $scriptProperties, 'false');
 
@@ -89,7 +90,7 @@
 		$hastagPrefix = '';
 		if($platform == 'facebook'){
 			$hashtagPrefix = "https://www.facebook.com/hashtag/";
-		} else {
+        } else {
 			$hashtagPrefix = "https://twitter.com/search?src=typd&q=%23";
 		}
 		
@@ -171,7 +172,7 @@
                 $array = array(
                     "socialPlatform" => "twitter",
                     "timestamp" => new DateTime($tweet['created_at'], new DateTimeZone($timeZone)),
-                    "text" => $tweet['text'],
+                    "text" => linkify($tweet['text']),
                     "url" => "https://twitter.com/".$tweet['user']['screen_name']."/status/".$tweet['id'],
 					"img" => ""
                 );
@@ -208,7 +209,7 @@
                 $array = array(
                     "socialPlatform" => "facebook",
                     "timestamp" => new DateTime($status['updated_time'], new DateTimeZone($timeZone)),
-                    "text" => $status['message'],
+                    "text" => linkify($status['message']),
                     "url" => "https://www.facebook.com/".$status['id'],
 					"img" => ""
                 );
@@ -236,9 +237,9 @@
                 $array = array(
                     "socialPlatform" => "instagram",
                     "timestamp" => new DateTime('@'.$instagram['created_time'], new DateTimeZone($timeZone)),
-                    "text" => $instagram['caption']['text'],
+                    "text" => linkify($instagram['caption']['text']),
                     "url" => $instagram['link'],
-					"img" => $instagram['images']['standard_resolution']
+					"img" => $instagram['images']['standard_resolution']['url']
                 );
 
                 array_push ($posts, $array);
@@ -265,7 +266,9 @@
 
 	for ($i = 0; $i < $postCount; $i++) {
         if ($posts[$i] != null) {
-            $output = $output.'
+			$output .= $modx->getChunk($tpl,$posts[$i]);
+			
+            /*$output = $output.'
                 <div class="post '.$posts[$i]["socialPlatform"].'">
 				<img src="'.$posts[$i]['img']['url'].'">
                     <div class="upper clearfix">
@@ -274,7 +277,7 @@
                     </div>
                     <div class="content">'.linkify($posts[$i]["text"], $posts[$i]["socialPlatform"]).'</div>
                 </div>
-            ';
+            ';*/
         }
 	}
 
