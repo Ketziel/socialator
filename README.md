@@ -82,9 +82,9 @@ No one could sum up working with facebook feeds a more accurate way...
 
 In comparison to the others, Instagram is very straightforward  to include.
 
-To begin with, set up your instagram as a developer account (if it is not already). Do this by logging into your account, and heading to [instagram.com/developer](http://instagram.com/developer/) and selecting `Register Your Application`. You'll need to fill in this form (yes, that includes the phone number) and hit `Sign up`.
+To begin with, set up your instagram as a developer account (if it is not already). Do this by logging into your account, heading to [instagram.com/developer](http://instagram.com/developer/) and selecting `Register Your Application`. You'll need to fill in this form (yes, that includes the phone number) and hit `Sign up`.
 
-With the account set up as a developer, select `Manage Clients` in the top bar and then click on `Register a New Client`. Here, make sure to set `Valid redirect URIs` to **http://localhost**, and under the `Security` tab ensuring that `Disable implicit OAuth` is **Unchecked**. Once these two essentials have been set, fill in the rest of the form inputs.
+With the account set up as a developer, select `Manage Clients` in the top bar and then click on `Register a New Client`. Here, make sure to set `Valid redirect URIs` to **http://localhost**, and under the `Security` tab ensure that `Disable implicit OAuth` is **Unchecked**. Once these two essentials have been set, fill in the rest of the form inputs.
 
 Now, under `Manage Clients` you should be able to see new client has been added. From this page, take a copy of the `CLIENT ID` value, insert it into the below URL and then head to the completed link.
 

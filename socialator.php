@@ -280,4 +280,8 @@
 
 	$output = $output.'</div>';
  
-    return $output;
+    if($toPlaceholder){
+        $modx->setPlaceholder($toPlaceholder,$output);
+    } else {
+        return $output;
+    }
