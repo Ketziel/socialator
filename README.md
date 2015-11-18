@@ -133,7 +133,8 @@ Here is a simple example template, which may be useful as a base to work from.
     
 	<div class="content">[[+text]]</div>
     
-</div>```
+</div>
+```
 
 
 #What License I done gone used

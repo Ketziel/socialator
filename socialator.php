@@ -37,11 +37,6 @@
 	$instagramAccessToken  = $modx->getOption('instagramAccessToken', $scriptProperties, '');
 	
     $posts = array(); //Empty Array to Store All Combined Posts
-
-	$socialIcons = array(
-		"twitter" => "<img src=\"assets/img/social/twitter.svg\" onerror=\"this.src=\'/assets/img/logos/brand/twitter.png\'\">",
-		"facebook" => "<img src=\"assets/img/social/facebook.svg\" onerror=\"this.src=\'/assets/img/logos/brand/facebook.png\'\">"
-	);
  
     
 /* ==========================================================================
@@ -275,7 +270,7 @@
                 <div class="post '.$posts[$i]["socialPlatform"].'">
 				<img src="'.$posts[$i]['img']['url'].'">
                     <div class="upper clearfix">
-                        <div class="icon">'.$socialIcons[$posts[$i]["socialPlatform"]].'</div>
+                        <div class="icon"></div>
                         <a href="'.$posts[$i]["url"].'" target="_blank"><time datetime="'.$posts[$i]["timestamp"]->format('Y-m-d H:i:s').'">'.$posts[$i]["timestamp"]->format('d/m/Y').'</time></a>
                     </div>
                     <div class="content">'.linkify($posts[$i]["text"], $posts[$i]["socialPlatform"]).'</div>
