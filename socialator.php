@@ -90,7 +90,9 @@
 		$hastagPrefix = '';
 		if($platform == 'facebook'){
 			$hashtagPrefix = "https://www.facebook.com/hashtag/";
-        } else {
+        } else if ($platform == 'instagram') {
+			$hashtagPrefix = "https://www.instagram.com/explore/tags/";
+		} else {
 			$hashtagPrefix = "https://twitter.com/search?src=typd&q=%23";
 		}
 		
