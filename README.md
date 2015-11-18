@@ -69,6 +69,7 @@ With these values, you can now send these into Socialator, and retrieve the post
 | facebookPageId*   |string              | ''     | Unique id of the facebook page - required to retreive posts.                                  |
 | facebookAppId*   |string              | ''     | Unique id of your generated facebook app - required to retreive posts.                                  |
 | facebookAppSecret*   |string              | ''     | Unique Secret id of your generated facebook app - required to retreive posts.                                  |
+| facebookVersion   |string              | ''     | Used to specify when an older version of the Facebook graph API is being used. Should be left blank on all new projects.   |
 *Required for Facebook posts to be included
 
 If you've made it this far, and and everything is working then congratulations! You've made it through the land of dragons safely, and can now successfully include custom styled facebook posts on your ModX site.

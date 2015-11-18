@@ -196,7 +196,7 @@
         $pageToken = get_object_vars($response['data'][0]);
         $pageToken = $pageToken['access_token']; 
 
-        $statuses = getPage('https://graph.facebook.com/v2.3/'.$facebookPageId.'/statuses?access_token='.$pageToken);
+        $statuses = getPage('https://graph.facebook.com/v2.3/'.$facebookPageId.'/'.($facebookVersion == '2.3' ? 'statuses' : 'feeds').'?access_token='.$pageToken);
         $statuses = json_decode($statuses, true);
         $statuses = $statuses["data"];
 
