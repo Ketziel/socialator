@@ -268,6 +268,7 @@
 
 	for ($i = 0; $i < $postCount; $i++) {
         if ($posts[$i] != null) {
+            $posts[$i]['timestamp'] = $posts[$i]['timestamp']->getTimestamp();
 			$output .= $modx->getChunk($tpl,$posts[$i]);
 			
             /*$output = $output.'

@@ -20,6 +20,7 @@ Outwith the settings for each specific platform, are these generic plugin settin
 | -----------------------|-----------------|-----------------|-----------------------------------------------------------------------------------------------------------------|
 | outerClass                |string              | 'socialPosts'     | A class name which will be applied to the container created to hold the list of posts.                                  |
 | postCount               |integer            | '25'     | Specifies the number of posts to display. This will be listed by the newest first across all included social platforms.    |
+| tpl               |chunk            | ''     | Defines a template for each post from all social platforms to follow. Look below at **Output Content** for more details.   |
 | timeZone               |string            | 'Europe/London'     | Sets the timezone for all DateTime objects to follow.    |
 | toPlaceholder               |string            | ''     | overrides the output of the plugin to parse to a placeholder vairable instead.    |
 
@@ -101,6 +102,32 @@ And there we go - ready to plug these values into the plugin!
 | instagramUserId*   |string              | ''     | Unique id of the instagram user - required to retreive posts.                                  |
 | instagramAccessToken*   |string              | ''     | Unique id of your generated instagram app - required to retreive posts.                                  |
 *Required for Instagram posts to be included
+
+
+#Output Content
+
+The HTML used to mark up posts can be configured by using a chunk passed in through the `tpl` parameter.
+
+Within this chunk, all variables for a post can be accessed and displayed. The below table shows variables available to use within a template.
+
+| Name                      | Description                                                                                                                              |
+| -----------------------|-----------------------------------------------------------------------------------------------------------------|
+| socialPlatform | A lowercase string of the name of the social platform the post is from. |
+| timestamp | An unformatted timestamp of the post's publish date. |
+| text | The content of the status/tweet. |
+| url | A direct URL to the post on the corrisponding social platform. |
+| img | A direct URL to a picture included in the post. **CURRENTLY ONLY WORKS WITH INSTAGRAM** |
+
+Using these, template chunks can be thrown together fairly quickly, and should be flexible enough to output content in whatever way is required.
+
+Here is a simple example template, which may be useful as a base to work from.
+
+`<div class="post [[+socialPlatform]]" [[+img:isnot=``:then=\`style="background: url('[[+img]]') no-repeat center center; background-size: cover;"\`]]>
+	<div class="upper clearfix">
+		<a href="[[+url]]" target="_blank"><time datetime="[[+timestamp:date=`%Y-%m-%d %H:%M:%S`]]">[[+timestamp:date=`%d/%m/%Y`]]</time></a>
+	</div>
+	<div class="content">[[+text]]</div>
+</div>`
 
 
 #What License I done gone used
