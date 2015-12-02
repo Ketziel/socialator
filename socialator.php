@@ -68,7 +68,7 @@
 		curl_setopt($curl,CURLOPT_URL,$url); 
 		curl_setopt($curl,CURLOPT_RETURNTRANSFER,TRUE);
 		curl_setopt($curl,CURLOPT_CONNECTTIMEOUT,5);
-		
+        	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($curl, CURLOPT_FAILONERROR, TRUE);
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
 		curl_setopt($curl, CURLOPT_AUTOREFERER, TRUE);
