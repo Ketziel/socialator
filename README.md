@@ -126,7 +126,7 @@ Here is a simple example template, which may be useful as a base to work from.
 ```html
 <div class="post [[+socialPlatform]]" [[+img:isnot=``:then=`style="background: url('[[+img]]') no-repeat center center; background-size: cover;"`]]>
 
-	<div class="upper clearfix">
+	<div class="upper">
     
 		<a href="[[+url]]" target="_blank"><time datetime="[[+timestamp:date=`%Y-%m-%d %H:%M:%S`]]">[[+timestamp:date=`%d/%m/%Y`]]</time></a>
         

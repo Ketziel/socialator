@@ -68,7 +68,7 @@
 		curl_setopt($curl,CURLOPT_URL,$url); 
 		curl_setopt($curl,CURLOPT_RETURNTRANSFER,TRUE);
 		curl_setopt($curl,CURLOPT_CONNECTTIMEOUT,5);
-		
+        	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($curl, CURLOPT_FAILONERROR, TRUE);
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
 		curl_setopt($curl, CURLOPT_AUTOREFERER, TRUE);
@@ -166,6 +166,9 @@
         $tweetsDecoded = json_decode($tweetsjson, true);
 
         foreach($tweetsDecoded as $tweet){
+			
+			if (substr($tweet['text'], 0, 1) != '@') {
+				
                 $array = array(
                     "socialPlatform" => "twitter",
                     "timestamp" => new DateTime($tweet['created_at'], new DateTimeZone($timeZone)),
@@ -175,6 +178,10 @@
                 );
 
                 array_push ($posts, $array);
+				
+			}
+			
+			
         }
     }
 
@@ -182,7 +189,7 @@
 /* ==========================================================================
    Facebook
    ========================================================================== */
- 
+
 
     if ($facebookPageId != '' && $facebookAppId != '' && $facebookAppSecret != ''){
         //Generate Access Token Using AppKey & Secret
@@ -190,28 +197,29 @@
         $accessToken = str_replace('access_token=', '', $response); 
 
         //get the page accounts
-        $accounts = getPage('https://graph.facebook.com/v2.3/'.$facebookAppId.'/accounts?access_token='.$accessToken);
+        $accounts = getPage('https://graph.facebook.com/v2.5/'.$facebookAppId.'/accounts?access_token='.$accessToken);
 
         $response =  get_object_vars(  json_decode($accounts) );
         $pageToken = get_object_vars($response['data'][0]);
         $pageToken = $pageToken['access_token']; 
 
-        $statuses = getPage('https://graph.facebook.com/v2.3/'.$facebookPageId.'/'.($facebookVersion == '2.3' ? 'statuses' : 'feeds').'?access_token='.$pageToken);
+        $statuses = getPage('https://graph.facebook.com/v2.5/'.$facebookPageId.'/posts?access_token='.$pageToken);
         $statuses = json_decode($statuses, true);
         $statuses = $statuses["data"];
 
-		
         foreach($statuses as $status){
 
+			if ($status['message'] != ''){
                 $array = array(
                     "socialPlatform" => "facebook",
-                    "timestamp" => new DateTime($status['updated_time'], new DateTimeZone($timeZone)),
+                    "timestamp" => new DateTime($status['created_time'], new DateTimeZone($timeZone)),
                     "text" => linkify($status['message']),
                     "url" => "https://www.facebook.com/".$status['id'],
 					"img" => ""
                 );
 
                 array_push ($posts, $array);
+			}
         }
 
     }
@@ -228,7 +236,7 @@
 		  $instagrams = $instagrams['data'];
 		  //var_dump($instagrams);
 //		  echo (gettype($instagrams));
-		  
+
 		foreach($instagrams as $instagram){
 
                 $array = array(
