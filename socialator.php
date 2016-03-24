@@ -6,6 +6,7 @@
 
     /* General */
     $outerClass = $modx->getOption('outerClass', $scriptProperties, "socialPosts");
+    $innerClass = $modx->getOption('innerClass', $scriptProperties, "");
     $postCount = $modx->getOption('postCount', $scriptProperties, 25);
     $count = $postCount;
 	$timeZone = $modx->getOption('timeZone', $scriptProperties, 'Europe/London');
@@ -267,7 +268,7 @@
    ========================================================================== */
  
 	usort($posts, 'dateCompare');
-	$output = '<div class="socialator '.$outerClass.'">';
+	$output = '<div class="socialator '.$outerClass.'">'.($innerClass != '' ? '<div class="'.$innerClass.'">' : '');
 
 	for ($i = 0; $i < $postCount; $i++) {
         if ($posts[$i] != null) {
@@ -287,7 +288,7 @@
         }
 	}
 
-	$output = $output.'</div>';
+	$output = $output.'</div>'.($innerClass != '' ? '</div>' : '');
  
     if($toPlaceholder){
         $modx->setPlaceholder($toPlaceholder,$output);
