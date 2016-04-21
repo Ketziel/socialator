@@ -81,7 +81,7 @@
 	}
 
     /* Change Links in Post to <a> Tags */
-	function linkify($text, $platform) {
+	function linkify($text, $platform = "") {
         // Change Hashtags to links
 		$hastagPrefix = '';
 		if($platform == 'facebook'){
